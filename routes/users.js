@@ -1,6 +1,8 @@
 var mongo = require('mongodb');
 var url  = require('url');
 var config = require('./config');
+var ObjectID = require('mongodb').ObjectID;
+var hashgen = require('../utils/hashgen');
 
 var Server = mongo.Server,
     Db = mongo.Db,
@@ -27,12 +29,28 @@ exports.helloworld = function(req, res){
 	res.send("{message:Hello World}");
 }
 
+exports.validateLogin = function(req, res) {
+   var username = req.body.username;
+   var password = req.body.password;
+   var hashPassword = null;
+   hashgen.hash(password, 'thegeeks', function(err, result){
+	hashPassword = result;
+     });
+   db.collection('users', function(err, collection) {
+     collection.find({username:username, password : hashPassword}, function(err, results){
+	console.log(results);
+        res.send(results);
+     });
+   }); 
+};   
+
+
 exports.getAllUsers = function(req, res) {
 
     var skip = req.query.skip;
     var limit = req.query.limit;
-    console.log("skip : "+skip);
-    console.log("limit : "+limit);
+//    console.log("skip : "+skip);
+//    console.log("limit : "+limit);
     var options = new Object();
     options['skip'] = parseInt(skip);
     options['limit'] = parseInt(limit);   
@@ -52,14 +70,28 @@ exports.getUser = function(req, res) {
         res.send(item);        	
         });
     });
-i};
+};
 
 exports.modifyUser = function(req, res) {
     var id = req.params.id;
     var payload = req.body;
-    db.collection(usersCollection, function(err, collection) {
-        collection.update({'_id':id}, payload, {safe:true}, function(err, item) {
+    console.log(id);
+    console.log(payload);
+    var objectId = new ObjectID(id);
+    db.collection('users', function(err, collection) {
+        collection.update({'_id':objectId}, payload, {upsert:true, w: 1} , function(err, item) {
             res.send(item);        	
         });
     });
-};                   
+};
+
+exports.addUser = function(req, res) {
+   var payload = req.body;
+   var objectId = new ObjectID();
+   db.collection('users', function(err, collection) {
+      collection.insert(payload, function(err, item) {
+         res.send(item);
+      });
+   });
+};
+                   
