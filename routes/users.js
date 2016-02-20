@@ -28,31 +28,31 @@ exports.helloworld = function(req, res){
 }
 
 exports.getAllUsers = function(req, res) {
-    var url_parts = url.parse(req.url, true);
-    var query = url_parts.query;
-    var skip = query.skip;
-    var limit = query.limit;
-    
-    db.collection(usersCollection, function(err, collection) {
-	var options = {
-    		"limit": limit,
-	    	"skip": skip
-	}
-        collection.find({}, options, function(err, item) {
-            res.send(item);	
+
+    var skip = req.query.skip;
+    var limit = req.query.limit;
+    console.log("skip : "+skip);
+    console.log("limit : "+limit);
+    var options = new Object();
+    options['skip'] = parseInt(skip);
+    options['limit'] = parseInt(limit);   
+    console.log(options);
+    db.collection('users', function(err, collection) {
+        collection.find({}, options).toArray(function(err, results){
+	    console.log(results);        	
+            res.send(results);
         });
     });
 };
 
-
 exports.getUser = function(req, res) {
     var id = req.params.id;
-    db.collection(usersCollection, function(err, collection) {
+    db.collection('users', function(err, collection) {
         collection.findOne({'_id':id}, function(err, item) {
         res.send(item);        	
         });
     });
-};
+i};
 
 exports.modifyUser = function(req, res) {
     var id = req.params.id;
