@@ -28,3 +28,7 @@ textarea.workflow{
   border-radius: 7px;
   margin: 5px;
 }
+
+ul {
+    list-style: none; /* Remove list bullets */
+}
