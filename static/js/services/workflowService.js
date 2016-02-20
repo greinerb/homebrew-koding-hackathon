@@ -6,6 +6,10 @@ app.factory('Workflow', ['$http', function WorkflowFactory($http){
     store: function(workflowToStore)
     {
       console.log(workflowToStore);
+    },
+    byUser: function(userId)
+    {
+      console.log('get workflows for user ' + userId);
     }
   };
 }]);
