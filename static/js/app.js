@@ -1,1 +1,1 @@
-var app = angular.module("myFlow", []);
+var app = angular.module("myFlows", []);
