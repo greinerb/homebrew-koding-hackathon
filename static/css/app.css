@@ -2,15 +2,12 @@
   padding-top: 60px;
 }
 
-.userform {
-  margin: 25px;
-  margin-top: 0;
-}
-
-input.ng-invalid.ng-dirty{
-  border: 5px solid red;
-}
-
-input.ng-valid.ng-dirty{
-  border: 2px solid green;
+#memberFrame {
+  border-radius: 15px 50px 30px;
+  border-style: solid;
+  border-color: #acaaa9;
+  height: 350px;
+  width: 90%;
+  margin: 24px auto;
+  padding: 12px;
 }
