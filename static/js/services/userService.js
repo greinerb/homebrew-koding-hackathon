@@ -6,6 +6,10 @@ app.factory('User', ['$http', function UserFactory($http){
     store: function(userToStore)
     {
       console.log(userToStore);
+    },
+    loggedInUser: function()
+    {
+      console.log("returning logged in user");
     }
   };
 }]);

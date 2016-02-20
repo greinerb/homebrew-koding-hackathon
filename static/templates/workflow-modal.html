@@ -1,0 +1,23 @@
+<form ng-model="workflow" class="ModalWindow">
+  <div class="form-group">
+    <h2>New Workflow</h2>
+  </div>
+  <div class="form-group">
+    <label for="workflowTitle">Workflow Title</label>
+    <input type="text" class="form-control" id="title" placeholder="Enter title" ng-model="workflow.title" />
+  </div>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea class="workflow" id="description" ng-model="workflow.description" placeholder="Optional"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="startDate">Start Date/Time</label>
+    <input type="datetime-local" class="form-control" id="startDate" ng-model="workflow.start" />
+  </div>
+  <div class="form-group">
+    <label for="description">End Date/Time</label>
+    <input type="datetime-local" class="form-control" id="endDate" ng-model="workflow.end" />
+  </div>
+  <button type="button" class="btn btn-primary" ng-click="ok()">Submit</button>
+  <button type="button" class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</form>

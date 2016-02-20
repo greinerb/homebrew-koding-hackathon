@@ -1,4 +1,4 @@
-var app = angular.module("myFlows", ['ngRoute', 'door3.css'])
+var app = angular.module("myFlows", ['ngRoute', 'door3.css', 'ui.bootstrap'])
   .config(['$routeProvider', function($routeProvider){
 
     $routeProvider
@@ -22,9 +22,8 @@ var app = angular.module("myFlows", ['ngRoute', 'door3.css'])
       })
       .when('/list', {
         templateUrl: 'templates/workflow-list.html',
-        controller: function(){
-          console.log('list');
-        }
+        controller: 'WorkflowListController',
+        controllerAs: 'listCtrl'
       })
       .when('/home', {
         templateUrl: 'templates/default.html',
