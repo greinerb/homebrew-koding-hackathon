@@ -1,4 +1,4 @@
-var app = angular.module("myFlows", ['ngRoute'])
+var app = angular.module("myFlows", ['ngRoute', 'door3.css'])
   .config(['$routeProvider', function($routeProvider){
 
     $routeProvider
@@ -10,11 +10,11 @@ var app = angular.module("myFlows", ['ngRoute'])
       })
       .when('/user', {
         templateUrl: 'templates/user-modify.html',
-        controller: function(){
-          console.log('user');
-        }
+        css: 'css/app.css',
+        controller: 'UserController',
+        controllerAs: 'userCtrl'
       })
-      .when('/view', {
+      .when('/view/:id', {
         templateUrl: 'templates/workflow-display.html',
         controller: function(){
           console.log('display');

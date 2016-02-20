@@ -1,1 +1,31 @@
-user
+<link rel="stylesheet" href="css/external/bootstrap.min.css" />
+<link rel="stylesheet" href="css/external/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="css/app.css" />
+<form class="userform" name="userform" novalidate ng-submit="userform.$valid && userCtrl.saveUser(user)">
+  <fieldset class="form-group">
+    <label for="username">Email address</label>
+    <input type="email" class="form-control" id="username" placeholder="Your email address" required ng-model="user.email"/>
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password" placeholder="Please enter a password" required ng-model="user.pass" pattern=".{6,}" />
+    <small class="text muted">At least 6 characters.</small>
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="confirm_pass">Confirm</label>
+    <input type="password" class="form-control" id="confirm" placeholder="Please confirm your password" required ng-model="user.conf" pattern="{{user.pass}}" />
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="phone">Text Message Number</label>
+    <input type="tel" class="form-control" id="txtNum" placeholder="10 digit phone number (no special characters)" ng-model="user.txtNum" pattern="[0-9]{10}" />
+    <small class="text muted">Optional</small>
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="phone">Voice Phone Number</label>
+    <input type="tel" class="form-control" id="voiceNum"  placeholder="10 digit phone number (no special characters)" ng-model="user.voiceNum" pattern="[0-9]{10}" />
+    <small class="text muted">Optional</small>
+  </fieldset>
+  <input type="submit" class="btn btn-primary pull-right" value="Submit" />
+</form>
+{{myInput.$valid}}
+{{userform.myInput.$valid}}
