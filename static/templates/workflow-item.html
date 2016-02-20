@@ -1,0 +1,16 @@
+<div>
+  Workflow Name: {{data.name}}
+  <div>
+    <table style="width:100%">
+      <tr>
+        <td>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <button ng-click="workflowCtrl.add(data)">Add node</button>
+  <button ng-click="workflowCtrl.delete(data)" ng-show="data.nodes.length > 0">Delete nodes</button>
+  <ul>
+    <li ng-repeat="data in data.nodes" ng-include="'templates/workflow-item.html'"></li>
+  </ul>
+</div>
