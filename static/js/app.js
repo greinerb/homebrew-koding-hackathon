@@ -4,9 +4,7 @@ var app = angular.module("myFlows", ['ngRoute', 'door3.css'])
     $routeProvider
       .when('/about', {
         templateUrl: 'templates/about.html',
-        controller: function(){
-          console.log('about');
-        }
+        controller: 'AboutController'
       })
       .when('/user', {
         templateUrl: 'templates/user-modify.html',
