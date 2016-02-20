@@ -1,1 +1,24 @@
-about
+<div id="page">
+  <div id="header" class="header">
+    <h2>Iowa City HomeBrew - Team Profile</h2>
+  </div>
+  <div id="content">
+    <div id="membersFrame" data-ng-controller="TeamMembersController">
+      <div id="memberFrame" data-ng-repeat="teamMember in teamMembers | filter:{status:'!Inactive'} | orderBy:'name'">
+        <div id="memberInfo" class="container-fluid">
+          <h2>{{teamMember.name}}</h2>
+          <b>Origin:</b> {{ teamMember.origin }}</br>
+          <b>Email:</b> {{ teamMember.emailAddress_null }}</br>
+          <b>Twitter:</b>{{ teamMember.twitterHandle }}</br>
+          </br>
+          <b>Interests:</b> {{ teamMember.interests }}</br>
+        </div>
+        <div id="memberMug" class="container-fluid">>
+          <img alt="{{teamMember.name}}" title="{{teamMember.name}}" src="{{ teamMember.mugPath }}" style="border:0;" height="325" width="300">
+        </div>
+      </div>
+    </div>
+    </div>
+    <div id="footer">
+    </div>
+</div>
