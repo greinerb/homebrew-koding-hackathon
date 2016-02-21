@@ -41,8 +41,9 @@ exports.getAllWorkFlows = function(req, res) {
 
 exports.getWorkFlow = function(req, res) {
     var id = req.params.id;
+    var objectId = new ObjectID(id);
     db.collection('workflows', function(err, collection) {
-        collection.findOne({'_id':id}, function(err, item) {
+        collection.findOne({"_id":objectId}, function(err, item) {
         res.send(item);        	
         });
     });
@@ -55,7 +56,7 @@ exports.modifyWorkFlow = function(req, res) {
     console.log(payload);
     var objectId = new ObjectID(id);
     db.collection('workflows', function(err, collection) {
-        collection.update({'_id':objectId}, payload, {upsert:true, w: 1} , function(err, item) {
+        collection.update({"_id":objectId}, payload, function(err, item) {
             res.send(item);        	
         });
     });
@@ -78,7 +79,7 @@ exports.removeWorkFlow = function(req, res) {
 	var id = req.params.id;
 	var objectId = new ObjectID(id);
 	db.collection('workflows', function(err, collection) {
-	   collection.deleteOne({'_id':objectId}, function(err, item) {
+	   collection.deleteOne({"_id":objectId}, function(err, item) {
 		res.send(item);
           });
 	});
@@ -86,8 +87,10 @@ exports.removeWorkFlow = function(req, res) {
 
 exports.generateWorkFlowId = function(req, res) {
 	var objectId = new ObjectID();
-	console.log(objectId);
-	res.send(objectId);
+        console.log(objectId);
+        var obj = new Object();
+        obj['id'] = objectId;
+	res.send(JSON.parse(obj));
 };                   
 
 exports.getUserWorkFlows = function(req, res) {
@@ -117,28 +120,36 @@ exports.createUserWorkFlows = function(req, res) {
                 var len = emails.length;
 	        for(var i = 0; i<len; i++){
 	           db.collection('user_workflows', function(err, collection) {
-	             delete workflow['_id']
+	             workflow['workflowId'] = workflow['_id'];
+		     delete workflow['_id']
 	             delete workflow['username'];
                      workflow['username'] = emails[i];
 	             collection.insert(workflow);
 		     //SEND EMAIL
-                     var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
-		     var mailOptions = {
-			from : "homebrew@geekclub.com",
-		        to : emails[i],
-			subject : "You have been invited to MyFlows",
-			text : "Welcome.  Please visit us"
-		     };
-		     transporter.sendMail(mailOptions, function(error, info){
-                     if(error){
-                        return console.log(error);
-                     }
-                     console.log('Message sent: ' + info.response);
+                     var smtpTransport = nodemailer.createTransport("SMTP",{
+  			 service: "Gmail",
+   			 auth: {
+       			 user: "homebrewgeekclub@gmail.com",
+       			 pass: "hqSaZ!qbYvq4_312d"
+   			}
+		     });
+
+                     smtpTransport.sendMail({
+                        from: "HomeBrew GeekClub <homebrewgeekclub@gmail.com>", 
+                        to: emails[i], 
+                        subject: "You have been invited to MyFlows",
+                        text: "Welcome. Please visit us" 
+                        }, function(error, response){
+                        if(error){
+                          console.log(error);
+                        }else{
+                          console.log("Message sent: " + response.message);
+                        }
                      });
-	          });
+		  });
                 }
-		res.send("SUCCESS");
-	   });
+	        res.send("SUCCESS");
         });
+     });
 };
 
