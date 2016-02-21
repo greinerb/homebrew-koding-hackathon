@@ -89,10 +89,11 @@ exports.generateWorkFlowId = function(req, res) {
 };                   
 
 exports.getUserWorkFlows = function(req, res) {
-        var id = req.params.id;	
+        var username = req.params.username;	
+        console.log(username);
 	db.collection('user_workflows', function(err, collection) {
-	   collection.find({userId:id}, function(err, item) {
-		res.send(item);
+	   collection.find({"username":username}).toArray(function(err, items) {
+		res.send(items);
 	   });
 	});
 };
