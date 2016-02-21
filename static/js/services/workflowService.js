@@ -6,14 +6,13 @@ app.factory('Workflow', ['$http', function WorkflowFactory($http){
     },
     store: function(workflowToStore)
     {
-      console.log('store' + workflowToStore);
       console.log(workflowToStore);
       return $http({'method': 'PUT', 'url':'/myflows/workflow/' + workflowToStore.id, data: workflowToStore});
     },
-    byUser: function(userId)
+    byUser: function(username)
     {
-      console.log('get workflows for user ' + userId);
-      return $http({'method':'GET', 'url':'/myflows/workflow/user/' + userId});
+      console.log('get workflows for user ' + username);
+      return $http({'method':'GET', 'url':'/myflows/workflow/user/' + username});
     },
     getNewWorkflowId: function()
     {

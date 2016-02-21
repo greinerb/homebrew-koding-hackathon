@@ -12,32 +12,10 @@ app.controller("NavController", ["$scope", "$uibModal", "User", function($scope,
     this.tabIndex = tab;
   };
 
-  $scope.open = function(size){
-    console.log("in open");
-      var modal = $uibModal.open({
-      animation: true,
-      templateUrl: 'templates/login-modal.html',
-      size: size,
-      controller: "ModalLoginInstanceCtrl",
-      windowTopClass: "ModalWindow"
-    });
+  this.validateLogin = function(user)
+  {
+    User.validateLogin(user);
+  }
 
-    modal.result.then(function(user){
-      console.log(user);
-      var loggedUser = User.validateLogin(user);
-      console.log(loggedUser.username + " successfully logged in");
-      console.log(User.getStoredUser);
-      console.log('Modal dismissed at: ' + new Date());
-    });
-  };
   return this;
-}]);
-app.controller('ModalLoginInstanceCtrl',["$scope", "$uibModalInstance", function($scope, $uibModalInstance){
-  $scope.ok = function(){
-    $uibModalInstance.close($scope.user);
-  };
-
-  $scope.cancel = function(){
-    $uibModalInstance.dismiss('cancel');
-  };
 }]);

@@ -14,7 +14,7 @@ app.factory('User', ['$http', '$location', function UserFactory($http, $location
     loggedInUser: function()
     {
       console.log("returning logged in user");
-      return $http({method: 'GET', url: '/myflows/login'});
+      return $http({method: 'GET', url: '/myflows/activeUser'});
     },
     validateLogin: function(user)
     {

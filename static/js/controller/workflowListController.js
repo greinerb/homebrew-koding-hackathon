@@ -1,4 +1,4 @@
-app.controller("WorkflowListController", ["Workflow", "User", "$scope", "$uibModal", '$routeParams', function(Workflow, User, $scope, $uibModal, $routeParams){
+app.controller("WorkflowListController", ["Workflow", "User", "$scope", "$uibModal", '$location', function(Workflow, User, $scope, $uibModal, $location){
   console.log('in list controller');
   var getWorkflow = function(workflowId)
   {
@@ -8,12 +8,23 @@ app.controller("WorkflowListController", ["Workflow", "User", "$scope", "$uibMod
   var getMyWorkflows = function()
   {
     console.log('getMyWorkflows');
-    console.log(User.getStoredUser());
+
     //get user id
     User.loggedInUser().then(function successCallback(response){
       console.log('user response');
-      console.log(response);
-      console.log(response.data);
+      if(response.data === '')
+      {
+        $location.path('/login');
+      }
+      else {
+        Workflow.byUser(response.data.username).then(function successCallback(response){
+          console.log(response);
+          console.log(response.data);
+          $scope.workflows = response.data;
+        }, function errorCallback(response){
+          console.log(response);
+        });
+      }
     }, function errorCallback(response){
       console.log('user error response');
       console.log(response);
@@ -50,8 +61,16 @@ app.controller("WorkflowListController", ["Workflow", "User", "$scope", "$uibMod
       {
         console.log(' no description ');
       }
-      workflow.id = num++;
-      $scope.workflows.push(workflow);
+      Workflow.getNewWorkflowId().success(function(data)
+      {
+        workflow.id = data;
+        $scope.workflows.push(workflow);
+        Workflow.store(workflow).success(function(data){
+            console.log('workflow successfully stored');
+            console.log(data);
+        });
+      });
+
       console.log('Modal dismissed at: ' + new Date());
     });
   };
