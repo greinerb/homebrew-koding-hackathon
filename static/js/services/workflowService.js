@@ -18,6 +18,10 @@ app.factory('Workflow', ['$http', function WorkflowFactory($http){
     getNewChildWorkflowId: function(parentId)
     {
       console.log('getNewChildWorkflowId for parent ' + parentId);
+    },
+    deleteByWorkflowId: function(workflowId)
+    {
+      console.log('deleteByWorkflowId' + workflowId);
     }
   };
 }]);
