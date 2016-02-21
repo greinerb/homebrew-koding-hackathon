@@ -21,8 +21,8 @@
           <div class="collapse navbar-collapse navbar-right" id="navbar-collapse-1" ng-controller="NavController as navCtrl">
             <ul class="nav navbar-nav navbar-left">
               <li ng-class="{'active' : navCtrl.isSet(1)}"><a href="#/home" ng-click="navCtrl.setTab(1)">Home</a></li>
-              <li ng-class="{'dropdown' : true, 'active' : navCtrl.isSet(2)}">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">UserName <span class="caret"></span></a>
+              <li ng-class="{'dropdown' : true, 'active' : navCtrl.isSet(2)}" ng-show="loggedIn">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">UserName <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="#/user" ng-click="navCtrl.setTab(2)">Edit User</a></li>
                   <li><a href="#/list" ng-click="navCtrl.setTab(2)">My Flows</a></li>
@@ -30,6 +30,7 @@
                   <li><a href="#/" ng-click="navCtrl.setTab(1)">Logout</a></li>
                 </ul>
               </li>
+              <li ng-class="{'active' : navCtrl.isSet(2)}" ng-show="!loggedIn"><a href="#/" ng-click="open()">Log In</a></li>
               <li ng-class="{'active' : navCtrl.isSet(3)}"><a href="#/about" ng-click="navCtrl.setTab(3)">About Us</a></li>
             </ul>
           </div>

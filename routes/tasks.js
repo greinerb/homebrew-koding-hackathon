@@ -69,4 +69,19 @@ exports.addTask = function(req, res) {
       });
    });
 };
-                   
+
+exports.removeTask = function(req, res) {
+	var id = req.params.id;
+        var objectId = new ObjectID(id);
+	db.collection('tasks', function(err, collection) {
+	  collection.remove({'_id':objectId}, function(err, item) {
+	    res.send(item);
+	  });
+	});
+};
+
+exports.generateTaskId = function(req, res) {
+	var objectId = new ObjectID();
+	res.send(objectId);
+};
+

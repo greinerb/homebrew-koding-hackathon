@@ -7,11 +7,11 @@
   margin-top: 0;
 }
 
-input.ng-invalid.ng-dirty{
+input.ng-invalid.ng-dirty, .ng-dirty input.ng-invalid{
   border: 5px solid red;
 }
 
-input.ng-valid.ng-dirty{
+input.ng-valid.ng-dirty, .ng-dirty textarea.ng-valid.ng-valid{
   border: 2px solid green;
 }
 
@@ -26,6 +26,10 @@ textarea.workflow{
 .workflowDisplay{
   background-color: lightgreen;
   border-radius: 7px;
+  margin: 5px;
+}
+
+.paddedElement{
   margin: 5px;
 }
 

@@ -2,6 +2,7 @@ var mongo = require('mongodb');
 var url  = require('url');
 var config = require('./config');
 var ObjectID = require('mongodb').ObjectID;
+var nodemailer = require('nodemailer');
 
 var Server = mongo.Server,
     Db = mongo.Db,
@@ -70,4 +71,71 @@ exports.addWorkFlow = function(req, res) {
       });
    });
 };
-                   
+
+exports.removeWorkFlow = function(req, res) {
+	var id = req.params.id;
+	var objectId = new ObjectID(id);
+	db.collection('workflows', function(err, collection) {
+	   collection.deleteOne({'_id':objectId}, function(err, item) {
+		res.send(item);
+          });
+	});
+};
+
+exports.generateWorkFlowId = function(req, res) {
+	var objectId = new ObjectID();
+	console.log(objectId);
+	res.send(objectId);
+};                   
+
+exports.getUserWorkFlows = function(req, res) {
+        var id = req.params.id;	
+	db.collection('user_workflows', function(err, collection) {
+	   collection.find({userId:id}, function(err, item) {
+		res.send(item);
+	   });
+	});
+};
+
+
+exports.createUserWorkFlows = function(req, res) {
+	var id = req.params.id;
+	var payload = req.body;
+        var emails = payload.emails;	
+	var workflow = null;
+        var objectId = new ObjectID(id);
+	db.collection('workflows', function(err, collection) {
+	  collection.findOne({'_id':objectId}, function(err, item) {
+	    	console.log(item);
+		workflow = item;
+	 
+	        //Now that you have the workflows, need to associate it to them
+	 
+                var len = emails.length;
+	        for(var i = 0; i<len; i++){
+	           db.collection('user_workflows', function(err, collection) {
+	             delete workflow['_id']
+	             delete workflow['username'];
+                     workflow['username'] = emails[i];
+	             collection.insert(workflow);
+		     //SEND EMAIL
+                     var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
+		     var mailOptions = {
+			from : "homebrew@geekclub.com",
+		        to : emails[i],
+			subject : "You have been invited to MyFlows",
+			text : "Welcome.  Please visit us"
+		     };
+		     transporter.sendMail(mailOptions, function(error, info){
+                     if(error){
+                        return console.log(error);
+                     }
+                     console.log('Message sent: ' + info.response);
+                     });
+	          });
+                }
+		res.send("SUCCESS");
+	   });
+        });
+};
+

@@ -25,9 +25,6 @@ app.use(session({
 
 var jsonParser = bodyParser.json();
 
-
-app.get('/myflows/helloworld', users.helloworld);
-
 app.post('/login', function(req, res){
    
           try{
@@ -88,11 +85,16 @@ app.put('/myflows/user',jsonParser,users.addUser);
 app.get('/myflows/workflow/:id', workflows.getWorkFlow);
 app.put('/myflows/workflow/:id', workflows.modifyWorkFlow);
 app.put('/myflows/workflow', jsonParser, workflows.addWorkFlow);
+app.get('/myflows/workflow/generateId', workflows.generateWorkFlowId);
+app.get('/myflows/workflow/user/:id', workflows.getUserWorkFlows);
+app.put('/myflows/workflow/:id/emailInvites', jsonParser, workflows.createUserWorkFlows);
+app.delete('/myflows/workflow/:id', workflows.removeWorkFlow);
 
 app.get('/myflows/task/:id', tasks.getTask);
 app.put('/myflows/task/:id', tasks.modifyTask);
 app.put('/myflows/task', jsonParser, tasks.addTask);
-
+app.get('/myflows/task/generateId', tasks.generateTaskId);
+app.delete('/myflows/task/:id', tasks.removeTask);
 
 
 app.use('/', express.static('static'));

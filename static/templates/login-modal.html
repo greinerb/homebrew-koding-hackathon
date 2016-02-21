@@ -1,0 +1,21 @@
+<form name="loginForm" ng-model="user" class="ModalWindow" novalidate ng-submit="loginForm.$valid && ok()">
+  <div class="form-group">
+    <h2>Login</h2>
+  </div>
+  <div class="form-group">
+    <label for="email">Email Address</label>
+    <input type="email" class="form-control" name="login" id="login" placeholder="Enter email (Required)" ng-model="user.email" required />
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="pass" name="pass" ng-model="user.password" placeholder="Password" required pattern=".{6,}" ></textarea>
+  </div>
+  <div class="form-group">
+    <div>Forgot your password?  Please enter your email address and click <a ng-click="">HERE!</a></div>
+    <div>Or sign-up for a new account <a ng-click="cancel()" href="#/user">here.</a></div>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="button" class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  </div>
+</form>
