@@ -25,9 +25,9 @@ db.open(function(err, db) {
 });
 
 
-exports.helloworld = function(req, res){
-	res.send("{message:Hello World}");
-}
+
+
+
 
 exports.validateLogin = function(req, res, fullBody, callback ){
   console.log(fullBody);

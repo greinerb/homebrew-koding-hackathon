@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var users = require('./routes/users');
 var workflows = require('./routes/workflows');
 var tasks = require('./routes/tasks');
-
+var config = require('./routes/config');
 var session = require('express-session');
 
 var app = express();
@@ -101,8 +101,8 @@ app.delete('/myflows/task/:id', tasks.removeTask);
 
 app.use('/', express.static('static'));
 
-app.listen(3001);
-console.log('Listening on port 3001...');
+app.listen(config.http.Port);
+console.log('Listening on port '+config.http.Port+'...');
 
 
 

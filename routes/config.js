@@ -4,7 +4,7 @@ var config = {};
 
 //Http Server Settings
 config.http = {}
-config.http.Port = '3000';
+config.http.Port = '3001';
 	
 //MongoDB
 config.mongo = {};
