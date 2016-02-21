@@ -75,7 +75,7 @@ app.get('/myflows/workflow/:id', workflows.getWorkFlow);
 app.put('/myflows/workflow/:id', workflows.modifyWorkFlow);
 app.put('/myflows/workflow', jsonParser, workflows.addWorkFlow);
 app.get('/myflows/workflow/generateId', workflows.generateWorkFlowId);
-app.get('/myflows/workflow/user/:id', workflows.getUserWorkFlows);
+app.get('/myflows/workflow/user/:username', workflows.getUserWorkFlows);
 app.put('/myflows/workflow/:id/emailInvites', jsonParser, workflows.createUserWorkFlows);
 app.delete('/myflows/workflow/:id', workflows.removeWorkFlow);
 
