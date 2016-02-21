@@ -24,11 +24,19 @@ app.controller("NavController", ["$scope", "$uibModal", "User", function($scope,
 
     modal.result.then(function(user){
       console.log(user);
-      User.validateLogin(user).then(function(response){//success
+      User.validateLogin(user).then(function successCallback(response){//success
         console.log(response);
+        console.log(response.data);
+        if(response.status === 200)
+        {
+          console.log('200 response, user logged in');
+          loggedIn = true;
+          //$rootScope.userId =
+        }
         //check response code, set loggedIn = true if successful.
-      }).then(function(response){//error
+      }, function errorCallback(response){//error
         console.log(response);
+        console.log(response.data);
         $scope.open();
       });
       console.log('Modal dismissed at: ' + new Date());

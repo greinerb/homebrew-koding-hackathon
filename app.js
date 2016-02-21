@@ -25,7 +25,7 @@ app.use(session({
 
 var jsonParser = bodyParser.json();
 
-app.post('/login', function(req, res){
+app.post('/myflows/login', function(req, res){
    
           try{
 	    if (req.method == 'POST') {

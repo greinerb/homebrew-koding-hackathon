@@ -9,15 +9,29 @@ app.controller("WorkflowListController", ["Workflow", "User", "$scope", "$uibMod
   {
     console.log('getMyWorkflows');
     //get user id
-    User.loggedInUser();
+    User.loggedInUser().then(function successCallback(response){
+      console.log('user response');
+      console.log(response);
+      console.log(response.data);
+    }, function errorCallback(response){
+      console.log('user error response');
+      console.log(response);
+      console.log(response.data);
+    });
     //get workflow ID or workflows?
-    Workflow.byUser('user id');
-    return [{"id":1, "title":"This is a workflow title.", "description":"This is a more elaborate description of the workflow", "start":"2016-02-20 15:00:00", "end":"2016-02-20 22:00:00", "status":"In Progress"},
-    {"id":2, "title":"This is a workflow title.", "description":"This is a more elaborate description of the workflow", "start":"2016-02-20 15:00:00", "end":"2016-02-20 22:00:00", "status":"In Progress"},
-    {"id":3, "title":"This is a workflow title.", "description":"This is a more elaborate description of the workflow", "start":"2016-02-20 15:00:00", "end":"2016-02-20 22:00:00", "status":"In Progress"}];
+    /*Workflow.byUser('user id').then(function successCallback(response){
+      console.log(response);
+      console.log(response.data);
+      $scope.workflows = response.data;
+    }, function errorCallback(response){
+      console.log(response);
+    });*/
+    //return [{"id":1, "title":"This is a workflow title.", "description":"This is a more elaborate description of the workflow", "start":"2016-02-20 15:00:00", "end":"2016-02-20 22:00:00", "status":"In Progress"},
+    //{"id":2, "title":"This is a workflow title.", "description":"This is a more elaborate description of the workflow", "start":"2016-02-20 15:00:00", "end":"2016-02-20 22:00:00", "status":"In Progress"},
+    //{"id":3, "title":"This is a workflow title.", "description":"This is a more elaborate description of the workflow", "start":"2016-02-20 15:00:00", "end":"2016-02-20 22:00:00", "status":"In Progress"}];
   };
-  var num = 4;
-  $scope.workflows = getMyWorkflows();
+  //var num = 4;
+  getMyWorkflows();
 
   $scope.open = function(size){
     var modal = $uibModal.open({

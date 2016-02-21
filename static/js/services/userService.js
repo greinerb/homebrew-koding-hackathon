@@ -15,7 +15,7 @@ app.factory('User', ['$http', function UserFactory($http){
     },
     validateLogin: function(user)
     {
-      return $http({method: 'POST', url: '', data:{'username':user.email, 'password':user.password}});
+      return $http({method: 'POST', url: '/myflows/login', data:{'username':user.email, 'password':user.password}});
     }
   };
 }]);
