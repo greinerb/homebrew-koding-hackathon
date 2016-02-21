@@ -59,7 +59,8 @@ app.post('/login', function(req, res){
                 // Store the user's primary key
                 // in the session store to be retrieved,
                 // or in this case the entire user object
-                req.session.user = user;                                                        req.session.success = 'Authenticated as ' + user.name
+                req.session.user = user;
+		req.session.success = 'Authenticated as ' + user.name
                  + ' click to <a href="/logout">logout</a>. '
                  + ' You may now access <a href="/restricted">/restricted</a>.';
                  res.redirect('back');

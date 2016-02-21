@@ -30,27 +30,30 @@ exports.helloworld = function(req, res){
 }
 
 exports.validateLogin = function(req, res, fullBody, callback ){
-  //console.log(fullBody);
+  console.log(fullBody);
    var object = JSON.parse(fullBody);
-   //console.log(object);
+   console.log(object);
    var username = object.username;
    var password = object.password;
-   //console.log(username);
-   //console.log(password);
+   console.log(username);
+   console.log(password);
    var hashPassword = null;
+   var result = null;
    hash.hashVal(password, function(err, result) {
+   console.log('result : ' +result);
 	hashPassword = result;
    });
-   //console.log('hashPassword : '+hashPassword);
+   console.log('hashPassword : '+hashPassword);
    var returnResults = null;
+   console.log('result : ' +result);
    db.collection('users', function(err, collection) {
-     collection.findOne({username:username, password : hashPassword}, function(err, result){
-     //console.log(results);
+    collection.findOne({username:username, password : hashPassword}, function(err, result) {
+     console.log('result : ' +result);
      returnResults = result;
      console.log(returnResults);
      });
    });
-   callback(null,returnResults); 
+   return (returnResults); 
 };   
 
 
