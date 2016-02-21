@@ -19,51 +19,59 @@ app.controller("WorkflowController", ["$scope","Workflow", function($scope,Workf
   {
     //get the workflows for a user
     var workflows = Workflow.byUser(userId);
-    //loop over the workflows and get all the children
 
-    if(workflows && workflows.nodes)
+    //loop over the workflows and get all the children
+    if(workflows)
     {
-      for(i = 0; i < workflows.nodes.length; i++)
+      for(i = 0; i < workflows.length; i++)
       {
-        var workflow = Workflow.one(workflows.nodes[i].workflowId);
-        workflows.nodes.push(workflow);
+        if($scope.workflowlist)
+        {
+          $scope.workflowlist.push(workflows[i]);
+        }
+        else
+        {
+          $scope.workflowlist = new Array();
+          $scope.workflowlist.push(workflows[i]);
+        }
       }
     }
-
-    return [{
-            name: "Workflow",
-            nodes: []
-            }];
   }
 
-  $scope.add = function(data)
+  $scope.add = function(workflowitem)
   {
-    console.log('title:' + this.workflowitem.title);
-    data.id = Workflow.getNewWorkflowId();
-    console.log('id from Workflow.getNewWorkflowId()' +  data.id );
-    Workflow.store(data);
 
-    var newId = new Date().getUTCMilliseconds();
-    var post = data.nodes.length + 1;
-    var newName = data.name + '-' + post;
-    data.nodes.push({
-      name: newName,
-      id: newId,
-      nodes: []
-    });
-    console.log('showTheForm' + $scope.mustShow);
-    this.mustShow = true;
-    //this.workflowitem.title = '';
+    //generate and id for the workflowitem
+    workflowitem.id = Workflow.getNewWorkflowId();
+
+    console.log("workflowitem.id" + workflowitem.id);
+
+    //store the workflow in the db
+    Workflow.store(workflowitem);
+
+    if($scope.workflowlist)
+    {
+      $scope.workflowlist.push(this.workflowitem);
+    }
+    else
+    {
+      $scope.workflowlist = new Array();
+      $scope.workflowlist.push(this.workflowitem);
+    }
+    //empty out the form
+    this.workflowitem = "";
   }
 
-  this.delete = function(data)
+  this.delete = function(index, id)
   {
-      if(data && data.id)
+      console.log('index:' + index);
+
+      if(index && id)
       {
-        Wrokflow.deleteByWorkflowId(data.id);
+        Wrokflow.deleteByWorkflowId(id);
       }
 
-      data.nodes = [];
+      $scope.workflowlist.splice(index,1);
   }
 
   this.deleteItem = function(index)
@@ -71,7 +79,9 @@ app.controller("WorkflowController", ["$scope","Workflow", function($scope,Workf
       $scope.workflows.splice(index);
   }
 
-  $scope.workflows = getWorkflows();
+  //$scope.workflows = getWorkflows();
+
+  $scope.workflowlist= getWorkflows();
 
   return this;
 }]);
