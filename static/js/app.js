@@ -12,13 +12,16 @@ var app = angular.module("myFlows", ['ngRoute', 'door3.css', 'ui.bootstrap'])
         templateUrl: 'templates/user-modify.html',
         css: 'css/app.css',
         controller: 'UserController',
-        controllerAs: 'userCtrl'
+        controllerAs: 'userCtrl',
+        scope: {
+          user: '='
+        }
       })
       .when('/view/:id', {
         templateUrl: 'templates/workflow-display.html',
-        css: 'css/app.css',
-        controller: 'WorkflowController',
-        controllerAs: 'workflowCtrl'
+        controller: function(){
+          console.log('display');
+        }
       })
       .when('/list', {
         templateUrl: 'templates/workflow-list.html',

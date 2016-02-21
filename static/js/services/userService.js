@@ -11,6 +11,12 @@ app.factory('User', ['$http', '$location', function UserFactory($http, $location
       var user = {'username':userToStore.email, 'password':userToStore.pass, 'txtNum':userToStore.txtNum, 'voiceNum':userToStore.voiceNum};
       return $http({method: 'PUT', url: '/myflows/user', data: user});
     },
+    update: function(userToStore)
+    {
+      console.log(userToStore);
+      var user = {'_id':userToStore._id, 'username':userToStore.email, 'txtNum':userToStore.txtNum, 'voiceNum':userToStore.voiceNum, 'password':userToStore.pass};
+      return $http({method: 'PUT', url: '/myflows/user/' + userToStore._id, data: user});
+    },
     loggedInUser: function()
     {
       console.log("returning logged in user");
@@ -26,12 +32,10 @@ app.factory('User', ['$http', '$location', function UserFactory($http, $location
     },
     isLoggedIn: function()
     {
-      console.log("reporting loggedin of " + this.loggedin);
       return this.loggedin
     },
     setLoggedIn: function(val)
     {
-      console.log("setting loggedin to " + val);
       this.loggedin = val;
     }
   };
