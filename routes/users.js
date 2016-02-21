@@ -32,41 +32,26 @@ exports.helloworld = function(req, res){
 exports.validateLogin = function(req, res, fullBody, callback ){
   console.log(fullBody);
    var object = JSON.parse(fullBody);
-   console.log(object);
    var username = object.username;
    var password = object.password;
-   console.log(username);
-   console.log(password);
    var hashPassword = null;
-   var result = null;
    hash.hashVal(password, function(err, result) {
-   console.log('result : ' +result);
 	hashPassword = result;
+        db.collection('users', function(err, collection) {
+          collection.findOne({username:username, password : hashPassword}, function(err, result) {
+            callback(null, result);
+          });
+       });
    });
-   console.log('hashPassword : '+hashPassword);
-   var returnResults = null;
-   console.log('result : ' +result);
-   db.collection('users', function(err, collection) {
-    collection.findOne({username:username, password : hashPassword}, function(err, result) {
-     console.log('result : ' +result);
-     returnResults = result;
-     console.log(returnResults);
-     });
-   });
-   return (returnResults); 
 };   
 
 
 exports.getAllUsers = function(req, res) {
-
     var skip = req.query.skip;
     var limit = req.query.limit;
-//    console.log("skip : "+skip);
-//    console.log("limit : "+limit);
     var options = new Object();
     options['skip'] = parseInt(skip);
     options['limit'] = parseInt(limit);   
-    console.log(options);
     db.collection('users', function(err, collection) {
         collection.find({}, options).toArray(function(err, results){
 	    console.log(results);        	

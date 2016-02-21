@@ -44,9 +44,11 @@ app.post('/login', function(req, res){
 	      //var decodedBody = querystring.parse(fullBody);
 
               var user = null;
+
 	      users.validateLogin(req, res, fullBody, function(err, result){
                 user = result;
-              });
+		console.log(result);
+              
               console.log("user : "+user);
               if (user) {
                 console.log("inside of user");
@@ -60,15 +62,15 @@ app.post('/login', function(req, res){
 		req.session.success = 'Authenticated as ' + user.name
                  + ' click to <a href="/logout">logout</a>. '
                  + ' You may now access <a href="/restricted">/restricted</a>.';
-                 res.redirect('back');
+                 res.redirect('/#list');
                  });
               } else {
                  req.session.error = 'Authentication failed, please check your '
                  + ' username and password.'
-                 + ' (use "tj" and "foobar")';
-                 res.redirect('/login');
+                 res.redirect('/#login');
                }
             });
+	  });
            }
          }
          catch(e){console.log(e);}
