@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="css/external/bootstrap.min.css" />
 <link rel="stylesheet" href="css/external/bootstrap-theme.min.css" />
 <link rel="stylesheet" href="css/app.css" />
-<form class="userform" name="userform" novalidate ng-submit="userform.$valid && userCtrl.saveUser(user)">
+<form class="userform" name="userform" novalidate ng-submit="userform.$valid && userCtrl.saveUser(user)" action="#/login">
   <fieldset class="form-group">
     <label for="username">Email address</label>
     <input type="email" class="form-control" id="username" placeholder="Your email address" required ng-model="user.email"/>

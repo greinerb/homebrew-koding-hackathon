@@ -2,26 +2,27 @@ app.factory('Workflow', ['$http', function WorkflowFactory($http){
   return {
     one: function(workflowId){
       console.log("get one workflow: " + workflowId);
+      return $http({'method':'GET', 'url':'/myflows/workflow/' + workflowId});
     },
     store: function(workflowToStore)
     {
       console.log(workflowToStore);
+      return $http({'method': 'PUT', 'url':'/myflows/workflow/' + workflowToStore.id, data: workflowToStore});
     },
     byUser: function(userId)
     {
       console.log('get workflows for user ' + userId);
+      return $http({'method':'GET', 'url':'/myflows/workflow/user/' + userId});
     },
-    getNewWorkflowIdForUser: function(userid)
+    getNewWorkflowId: function()
     {
-      console.log('getNewWorkflowIdForUser for user ' + userid);
+      console.log('getNewWorkflowId');
+      return $http({'method':'GET', 'url':'/myflows/workflow/generateId'});
     },
-    getNewChildWorkflowId: function(parentId)
+    getNewTaskId: function()
     {
-      console.log('getNewChildWorkflowId for parent ' + parentId);
-    },
-    deleteByWorkflowId: function(workflowId)
-    {
-      console.log('deleteByWorkflowId' + workflowId);
+      console.log('getNewTaskId');
+      return $http({'method':'GET', 'url':'/myflows/task/generateId'});
     }
   };
 }]);

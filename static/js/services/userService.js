@@ -6,6 +6,8 @@ app.factory('User', ['$http', function UserFactory($http){
     store: function(userToStore)
     {
       console.log(userToStore);
+      var user = {'username':userToStore.email, 'password':userToStore.pass, 'txtNum':userToStore.txtNum, 'voiceNum':userToStore.voiceNum};
+      return $http({method: 'PUT', url: '/myflows/user', data: user});
     },
     loggedInUser: function()
     {

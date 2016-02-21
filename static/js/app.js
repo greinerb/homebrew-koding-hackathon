@@ -4,7 +4,9 @@ var app = angular.module("myFlows", ['ngRoute', 'door3.css', 'ui.bootstrap'])
     $routeProvider
       .when('/about', {
         templateUrl: 'templates/about.html',
-        controller: 'AboutController'
+        controller: function(){
+          console.log('about');
+        }
       })
       .when('/user', {
         templateUrl: 'templates/user-modify.html',
@@ -14,9 +16,9 @@ var app = angular.module("myFlows", ['ngRoute', 'door3.css', 'ui.bootstrap'])
       })
       .when('/view/:id', {
         templateUrl: 'templates/workflow-display.html',
-        css: 'css/app.css',
-        controller: 'WorkflowController',
-        controllerAs: 'workflowCtrl'
+        controller: function(){
+          console.log('display');
+        }
       })
       .when('/list', {
         templateUrl: 'templates/workflow-list.html',
@@ -28,6 +30,11 @@ var app = angular.module("myFlows", ['ngRoute', 'door3.css', 'ui.bootstrap'])
         controller: function(){
           console.log('default');
         }
+      })
+      .when('/login', {
+        templateUrl: 'templates/login-modal.html',
+        controller: 'NavController',
+        controllerAs: 'navCtrl'
       })
       .otherwise({
         redirectTo: '/home'
