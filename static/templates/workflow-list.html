@@ -1,14 +1,14 @@
 <div>
-  <button class="btn btn-primary" ng-click="open()">Create New Workflow</button>
-  <a ng-href="#/view/{{workflow.id}}"><div class="container workflowDisplay" ng-repeat="workflow in workflows">
+  <button class="btn btn-primary paddedElement" ng-click="open()">Create New Workflow</button>
+  <div class="container workflowDisplay" ng-repeat="workflow in workflows">
     <div class="row">
-      <div class="col-md-4 text-uppercase bold">{{workflow.title}}</div>
-      <div class="col-md-7">{{workflow.description}}</div>
-      <div class="col-md-1"><a ng-href="#/view/{{workflow.id}}"><span class="label label-default">Edit</span></a></div>
+      <div class="col-md-4 text-uppercase bold"><h4>{{workflow.title}}</h4></div>
+      <div class="col-md-7 workflowDescription">{{workflow.description}}</div>
+      <div class="col-md-1"><a ng-href="#/view/{{workflow.id}}"><span class="label label-default paddedElement">Edit</span></a></div>
     </div>
     <div class="row">
-      <div class="col-md-4"><label for="start">Start Time </label><div name="start">{{workflow.start}}</div></div>
-      <div class="col-md-4"><label for="end">End Time </label><div name="end">{{workflow.end}}</div></div>
+      <div class="col-md-4"><div ng-show="workflow.start"><label for="start">Start Time </label><div name="start">{{workflow.start}}</div></div></div>
+      <div class="col-md-4"><div ng-show="workflow.end"><label for="end">End Time </label><div name="end">{{workflow.end}}</div></div></div>
       <div class="col-md-4"><label for="status">Status </label><div name="status">{{workflow.status}}</div></div>
     </div>
   </div></a>

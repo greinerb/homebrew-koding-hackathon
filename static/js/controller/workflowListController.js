@@ -31,6 +31,11 @@ app.controller("WorkflowListController", ["Workflow", "User", "$scope", "$uibMod
     modal.result.then(function(workflow){
       console.log(workflow);
       workflow.status="New";
+      if(!workflow.description)
+      {
+        console.log(' no description ');
+      }
+      workflow.id = num++;
       $scope.workflows.push(workflow);
       console.log('Modal dismissed at: ' + new Date());
     });

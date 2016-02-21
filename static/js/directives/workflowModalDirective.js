@@ -28,8 +28,6 @@ app.directive('workflowModal', function(){
           scope.$parent[attrs.visible] = false;
         });
       });
-
-
     }
   };
 });
