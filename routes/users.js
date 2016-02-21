@@ -86,6 +86,22 @@ exports.modifyUser = function(req, res) {
     var payload = req.body;
     console.log(id);
     console.log(payload);
+    var password = payload.password;
+    var username = payload.username;
+    if(null!=password && ""!=password){
+    	var hashPassword = null;
+    	hash.hashVal(password, function(err, result) {
+        	hashPassword = result;
+   	});
+	payload.password = hashPassword;
+    }
+    else{
+     db.collection('users', function(err, collection) {
+	collection.findOne({username:username}, function(err, result){
+        payload.password = result.password;
+        });
+     });
+    }
     var objectId = new ObjectID(id);
     db.collection('users', function(err, collection) {
         collection.update({'_id':objectId}, payload, {upsert:true, w: 1} , function(err, item) {
@@ -97,10 +113,26 @@ exports.modifyUser = function(req, res) {
 exports.addUser = function(req, res) {
    var payload = req.body;
    var objectId = new ObjectID();
-   db.collection('users', function(err, collection) {
-      collection.insert(payload, function(err, item) {
-         res.send(item);
-      });
+   var hashPassword = null;
+   var password = payload.password;
+    hash.hashVal(password, function(err, result) {
+        hashPassword = result;
    });
+   payload.password = hashPassword;
+   var username = payload.username;
+   db.collection('users',function(err, collection) {
+      collection.findOne({username:username}, function(err, item) {
+      if(item){  
+        res.send("{ERRORCODE:409}");
+      } 
+      else{
+        db.collection('users', function(err, collection) {
+          collection.insert(payload, function(err, item) {
+             res.send(item);
+          });
+        });
+      }
+    });
+  });
 };
                    
