@@ -29,19 +29,11 @@ app.post('/myflows/login', function(req, res){
    
           try{
 	    if (req.method == 'POST') {
-	    	//console.log("[200] " + req.method + " to " + req.url);
 	    	var fullBody = '';
-	    
 	    	req.on('data', function(chunk) {
-	      	// append the current chunk of data to the fullBody variable
-	      		fullBody += chunk.toString();
+	      	fullBody += chunk.toString();
 	   	 });
-	    
 	      req.on('end', function() {    
-	      // request ended -> do something with the data
-	      //res.writeHead(200, "OK", {'Content-Type': 'text/html'});      
-	      // parse the received body data
-	      //var decodedBody = querystring.parse(fullBody);
 
               var user = null;
 
@@ -49,18 +41,13 @@ app.post('/myflows/login', function(req, res){
                 user = result;
 		console.log(result);
               
-              console.log("user : "+user);
               if (user) {
                 console.log("inside of user");
-                // Regenerate session when signing in
-                // to prevent fixation
                 req.session.regenerate(function(){
-                // Store the user's primary key
-                // in the session store to be retrieved,
-                // or in this case the entire user object
+                              
                 delete user['password'];
-		req.session.user = user;
-                 user['status']='SUCCESS';
+                user['status']='SUCCESS';
+                req.session.user = user;
 		 res.send(user);
                  });
               } else {
@@ -76,7 +63,7 @@ app.post('/myflows/login', function(req, res){
          catch(e){console.log(e);}
 });
 
-app.get('/myflows/user*', users.getAllUsers);
+app.get('/myflows/user?', users.getAllUsers);
  
 app.get('/myflows/user/:id', users.getUser);
 app.put('/myflows/user/:id', jsonParser, users.modifyUser);

@@ -33,7 +33,7 @@ exports.getActiveUser = function(req, res){
 
 exports.validateLogin = function(req, res, fullBody, callback ){
 
-  console.log(fullBody);
+
    var object = JSON.parse(fullBody);
    var username = object.username;
    var password = object.password;
@@ -57,7 +57,9 @@ exports.getAllUsers = function(req, res) {
     options['limit'] = parseInt(limit);   
     db.collection('users', function(err, collection) {
         collection.find({}, options).toArray(function(err, results){
-	    console.log(results);        	
+	    for(var i=0;i<results.length;i++){
+	      delete results[i]['password'];
+            }        	
             res.send(results);
         });
     });
@@ -65,9 +67,11 @@ exports.getAllUsers = function(req, res) {
 
 exports.getUser = function(req, res) {
     var id = req.params.id;
+var objectId = new ObjectID(id);
     db.collection('users', function(err, collection) {
-        collection.findOne({'_id':id}, function(err, item) {
-        res.send(item);        	
+        collection.findOne({'_id':objectId}, function(err, item) {
+        try{delete item['password'];}catch(e){}
+	res.send(item);        
         });
     });
 };
@@ -75,8 +79,6 @@ exports.getUser = function(req, res) {
 exports.modifyUser = function(req, res) {
     var id = req.params.id;
     var payload = req.body;
-    console.log(id);
-    console.log(payload);
     var password = payload.password;
     var username = payload.username;
     if(null!=password && ""!=password){
@@ -96,7 +98,8 @@ exports.modifyUser = function(req, res) {
     var objectId = new ObjectID(id);
     db.collection('users', function(err, collection) {
         collection.update({'_id':objectId}, payload, {upsert:true, w: 1} , function(err, item) {
-            res.send(item);        	
+                delete item['password'];
+		res.send(item);        	
         });
     });
 };
