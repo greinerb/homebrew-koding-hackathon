@@ -1,8 +1,12 @@
 var express = require('express');
 var logger = require('express-logger');
 var bodyParser = require('body-parser');
-//var myflows = require('./routes/myflows');
+
 var users = require('./routes/users');
+var workflows = require('./routes/workflows');
+var tasks = require('./routes/tasks');
+
+var session = require('express-session');
 
 var app = express();
 
@@ -11,12 +15,66 @@ app.use(logger({path: "homebrew.log"}));
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json({type:'application/*+json'}));
 
+
+app.use(session({
+  secret: 'home geek club',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { }
+}));
+
 var jsonParser = bodyParser.json();
 
 
 app.get('/myflows/helloworld', users.helloworld);
 
-app.post('/login', users.validateLogin);
+app.post('/login', function(req, res){
+   
+          try{
+	    if (req.method == 'POST') {
+	    	//console.log("[200] " + req.method + " to " + req.url);
+	    	var fullBody = '';
+	    
+	    	req.on('data', function(chunk) {
+	      	// append the current chunk of data to the fullBody variable
+	      		fullBody += chunk.toString();
+	   	 });
+	    
+	      req.on('end', function() {    
+	      // request ended -> do something with the data
+	      //res.writeHead(200, "OK", {'Content-Type': 'text/html'});      
+	      // parse the received body data
+	      //var decodedBody = querystring.parse(fullBody);
+
+              var user = null;
+	      users.validateLogin(req, res, fullBody, function(err, result){
+                user = result;
+              });
+              console.log("user : "+user);
+              if (user) {
+                console.log("inside of user");
+                // Regenerate session when signing in
+                // to prevent fixation
+                req.session.regenerate(function(){
+                // Store the user's primary key
+                // in the session store to be retrieved,
+                // or in this case the entire user object
+                req.session.user = user;                                                        req.session.success = 'Authenticated as ' + user.name
+                 + ' click to <a href="/logout">logout</a>. '
+                 + ' You may now access <a href="/restricted">/restricted</a>.';
+                 res.redirect('back');
+                 });
+              } else {
+                 req.session.error = 'Authentication failed, please check your '
+                 + ' username and password.'
+                 + ' (use "tj" and "foobar")';
+                 res.redirect('/login');
+               }
+            });
+           }
+         }
+         catch(e){console.log(e);}
+});
 
 app.get('/myflows/user*', users.getAllUsers);
  
@@ -24,6 +82,17 @@ app.get('/myflows/user/:id', users.getUser);
 app.put('/myflows/user/:id', jsonParser, users.modifyUser);
 app.put('/myflows/user',jsonParser,users.addUser);
 //app.post('/myflows/user', myflows.queryUser);
+
+
+app.get('/myflows/workflow/:id', workflows.getWorkFlow);
+app.put('/myflows/workflow/:id', workflows.modifyWorkFlow);
+app.put('/myflows/workflow', jsonParser, workflows.addWorkFlow);
+
+app.get('/myflows/task/:id', tasks.getTask);
+app.put('/myflows/task/:id', tasks.modifyTask);
+app.put('/myflows/task', jsonParser, tasks.addTask);
+
+
 
 app.use('/', express.static('static'));
 

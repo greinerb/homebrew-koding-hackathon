@@ -2,7 +2,7 @@ var mongo = require('mongodb');
 var url  = require('url');
 var config = require('./config');
 var ObjectID = require('mongodb').ObjectID;
-var hashgen = require('../utils/hashgen');
+var hash = require('../utils/hash');
 
 var Server = mongo.Server,
     Db = mongo.Db,
@@ -15,7 +15,7 @@ db = new Db(config.mongo.DatabaseName, server, {safe:true});
 
 db.open(function(err, db) {
     if(!err) {
-        console.log("Connected to "+config.mongo.DatabaseName+"database");
+        console.log("Connected to "+config.mongo.DatabaseName+" database");
         db.collection(usersCollection, {safe:true}, function(err, collection) {
             if (err) {
                 console.log("The 'users' collection doesn't exist. Creating it with sample data...");
@@ -29,19 +29,28 @@ exports.helloworld = function(req, res){
 	res.send("{message:Hello World}");
 }
 
-exports.validateLogin = function(req, res) {
-   var username = req.body.username;
-   var password = req.body.password;
+exports.validateLogin = function(req, res, fullBody, callback ){
+  //console.log(fullBody);
+   var object = JSON.parse(fullBody);
+   //console.log(object);
+   var username = object.username;
+   var password = object.password;
+   //console.log(username);
+   //console.log(password);
    var hashPassword = null;
-   hashgen.hash(password, 'thegeeks', function(err, result){
+   hash.hashVal(password, function(err, result) {
 	hashPassword = result;
-     });
+   });
+   //console.log('hashPassword : '+hashPassword);
+   var returnResults = null;
    db.collection('users', function(err, collection) {
-     collection.find({username:username, password : hashPassword}, function(err, results){
-	console.log(results);
-        res.send(results);
+     collection.findOne({username:username, password : hashPassword}, function(err, result){
+     //console.log(results);
+     returnResults = result;
+     console.log(returnResults);
      });
-   }); 
+   });
+   callback(null,returnResults); 
 };   
 
 

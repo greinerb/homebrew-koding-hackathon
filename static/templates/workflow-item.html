@@ -1,16 +1,19 @@
 <div>
-  Workflow Name: {{data.name}}
-  <div>
-    <table style="width:100%">
-      <tr>
-        <td>
-        </td>
-      </tr>
-    </table>
-  </div>
-  <button ng-click="workflowCtrl.add(data)">Add node</button>
-  <button ng-click="workflowCtrl.delete(data)" ng-show="data.nodes.length > 0">Delete nodes</button>
-  <ul>
-    <li ng-repeat="data in data.nodes" ng-include="'templates/workflow-item.html'"></li>
-  </ul>
+    <div div class="container workflowDisplay">
+        <div div class="row">
+          <div class="col-md-2">{{data.name}}}</div>
+          <div class="col-md-2">/\<br/>\/</div>
+          <div class="col-md-2"> This is example text for a task.</div>
+          <div class="col-md-2"> Actual Start: 11:42:00 </div>
+          <div class="col-md-2"> Actual End: 12:10:00 </div>
+          <div class="col-md-2"><a href="TODO">Brent Greiner</a>, <a href="TODO">Joel Krueger</a></div>
+        </div>
+      <button class="label label-default" ng-click="workflowCtrl.add(data)">Add node</button>
+      <button class="label label-default" ng-click="workflowCtrl.delete(data)" ng-show="data.nodes.length > 0">Delete nodes</button>
+    </div>
+    <div>
+      <ul list-style-type: none>
+        <li list-style-type:none ng-repeat="data in data.nodes" ng-include="'templates/workflow-item.html'"></li>
+      </ul>
+    </div>
 </div>
