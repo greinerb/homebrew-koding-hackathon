@@ -64,7 +64,7 @@ app.post('/myflows/login', function(req, res){
 });
 
 app.get('/myflows/user?', users.getAllUsers);
- 
+app.get('/myflows/activeUser', users.getActiveUser);
 app.get('/myflows/user/:id', users.getUser);
 app.put('/myflows/user/:id', jsonParser, users.modifyUser);
 app.put('/myflows/user',jsonParser,users.addUser);
