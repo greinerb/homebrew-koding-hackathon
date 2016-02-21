@@ -1,4 +1,56 @@
-<ul>
-  <li ng-repeat="data in workflows" ng-include="'templates/workflow-item.html'"></li>
-</ul>
+<div>
+  <div></div>
+  <ul>
+      <li ng-repeat="workflow in workflowlist">
+      <div class="container workflowDisplay">
+          <div class="row">
+            <div class="form-group">
+              <h2>Title: {{workflow.title}}</h2>
+            </div>
+            <div class="form-group">
+              Workflow Id: {{workflow.id}}
+            </div>
+            <div class="form-group">
+              Description: {{workflow.description}}
+            </div>
+            <div class="form-group">
+              Start: {{workflow.start}}
+            </div>
+            <div class="form-group">
+              End: {{workflow.end}}
+            </div>
+          </div>
+        <div>
+          <button class="label label-default" ng-click="workflowCtrl.delete($index)">Remove</button>
+        </div>
+      </li>
+  </ul>
+  <ul>
+  <li>
+  <div class="container workflowDisplay">
+  <form name="flowItemForm" ng-model="workflowitem" class="ModalWindow" novalidate ng-submit="flowItemForm.$valid && add(workflowitem)">
+    <div class="form-group">
+      <h2>New Workflow Item</h2>
+    </div>
+    <div class="form-group">
+      <label for="workflowTitle">Workflow Title</label>
+      <input type="text" class="form-control" name="title" id="title" placeholder="Enter title (Required)" ng-model="workflowitem.title" required />
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea class="workflow" id="description" ng-model="workflowitem.description" placeholder="Optional"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="startDate">Start Date/Time</label>
+      <input type="datetime-local" class="form-control" id="startDate" ng-model="workflowitem.start" />
+    </div>
+    <div class="form-group">
+      <label for="description">End Date/Time</label>
+      <input type="datetime-local" class="form-control" id="endDate" ng-model="workflowitem.end" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  </li>
+  </ul>
+</div>
 </div>
