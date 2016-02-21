@@ -1,5 +1,5 @@
 app.factory('User', ['$http', '$location', function UserFactory($http, $location){
-  this.storedUser;
+  this.loggedin = false;
 
   return {
     one: function(userName){
@@ -18,19 +18,21 @@ app.factory('User', ['$http', '$location', function UserFactory($http, $location
     },
     validateLogin: function(user)
     {
-      $http({method: 'POST', url: '/myflows/login', data:{'username':user.email, 'password':user.password}}).success(function(data){
-        console.log('success, storing');
-        console.log(data);
-        this.storedUser = data;
-        console.log(this.storedUser);
-        $location.path("/list");
-        return data;
-      });
+      return $http({method: 'POST', url: '/myflows/login', data:{'username':user.email, 'password':user.password}});
     },
-    getStoredUser: function()
+    logout: function(user)
     {
-      console.log('returning promise');
-      return this.storedUser;
+      return $http({method: 'GET', url: '/myflows/logout'});
+    },
+    isLoggedIn: function()
+    {
+      console.log("reporting loggedin of " + this.loggedin);
+      return this.loggedin
+    },
+    setLoggedIn: function(val)
+    {
+      console.log("setting loggedin to " + val);
+      this.loggedin = val;
     }
   };
 }]);

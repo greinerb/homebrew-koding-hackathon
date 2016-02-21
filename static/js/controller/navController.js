@@ -1,6 +1,13 @@
-app.controller("NavController", ["$scope", "$uibModal", "User", function($scope, $uibModal, User){
+app.controller("NavController", ["$scope", "$uibModal", "User", "$location", function($scope, $uibModal, User, $location){
   this.tabIndex = 1;
-  $scope.loggedIn = false;
+  $scope.isUserLoggedIn = false;
+
+  this.isLoggedIn = function()
+  {
+    var retVal = User.isLoggedIn();
+    console.log('returning ' + retVal);
+    return retVal;
+  };
 
   this.isSet = function(tab)
   {
@@ -14,8 +21,23 @@ app.controller("NavController", ["$scope", "$uibModal", "User", function($scope,
 
   this.validateLogin = function(user)
   {
-    User.validateLogin(user);
-  }
+    $scope.isUserLoggedIn = User.validateLogin(user).success(function(data){
+      $location.path("/list");
+      User.setLoggedIn(true);
+      return true;
+    });
+  };
+
+  this.logout = function()
+  {
+    this.setTab(2);
+    User.logout().success(function(data){
+      console.log('logged out');
+      console.log(data);
+      User.setLoggedIn(false);
+      $scope.$apply();
+    });
+  };
 
   return this;
 }]);
