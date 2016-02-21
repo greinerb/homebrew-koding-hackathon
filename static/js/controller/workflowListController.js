@@ -1,13 +1,14 @@
-app.controller("WorkflowListController", ["Workflow", "User", "$scope", "$uibModal", function(Workflow, User, $scope, $uibModal){
-
+app.controller("WorkflowListController", ["Workflow", "User", "$scope", "$uibModal", '$routeParams', function(Workflow, User, $scope, $uibModal, $routeParams){
+  console.log('in list controller');
   var getWorkflow = function(workflowId)
   {
     Workflow.one(workflowId);
-  };
+  }
 
   var getMyWorkflows = function()
   {
     console.log('getMyWorkflows');
+    console.log(User.getStoredUser());
     //get user id
     User.loggedInUser().then(function successCallback(response){
       console.log('user response');
