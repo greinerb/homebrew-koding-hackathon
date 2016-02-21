@@ -73,19 +73,19 @@ app.put('/myflows/user',jsonParser,users.addUser);
 app.get('/myflows/user', users.getAllUsers);
 
 
-app.get('/myflows/workflow/:id', workflows.getWorkFlow);
 app.put('/myflows/workflow/:id', jsonParser, workflows.modifyWorkFlow);
 app.put('/myflows/workflow', jsonParser, workflows.addWorkFlow);
 app.get('/myflows/workflow/generateId', jsonParser, workflows.generateWorkFlowId);
+app.get('/myflows/workflow/:id', workflows.getWorkFlow);
 app.get('/myflows/workflow/user/:username', jsonParser,  workflows.getUserWorkFlows);
 app.put('/myflows/workflow/:id/emailInvites', jsonParser, workflows.createUserWorkFlows);
 app.delete('/myflows/workflow/:id', workflows.removeWorkFlow);
 
-app.get('/myflows/task/:id', tasks.getTask);
 app.put('/myflows/task/:id', jsonParser, tasks.modifyTask);
 app.put('/myflows/task', jsonParser, tasks.addTask);
 app.get('/myflows/task/generateId', tasks.generateTaskId);
 app.delete('/myflows/task/:id', tasks.removeTask);
+app.get('/myflows/task/:id', tasks.getTask);
 
 
 app.use('/', express.static('static'));

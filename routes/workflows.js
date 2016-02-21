@@ -86,11 +86,10 @@ exports.removeWorkFlow = function(req, res) {
 };
 
 exports.generateWorkFlowId = function(req, res) {
-	var objectId = new ObjectID();
-        console.log(objectId);
-        var obj = new Object();
-        obj['id'] = objectId;
-	res.send(JSON.parse(obj));
+	var timestamp = Math.floor(new Date().getTime()/1000);
+        var objectId = new ObjectID(timestamp);
+        //console.log(objectId);
+       	res.send(objectId);
 };                   
 
 exports.getUserWorkFlows = function(req, res) {
