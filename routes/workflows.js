@@ -63,8 +63,9 @@ exports.modifyWorkFlow = function(req, res) {
 
 exports.addWorkFlow = function(req, res) {
    var payload = req.body;
-   console.log(payload);  
- //var objectId = new ObjectID();
+   var user = req.session.user;
+   payload['owner'] = user.username;
+   payload['userId'] = user._id;
    db.collection('workflows', function(err, collection) {
       collection.insert(payload, function(err, item) {
          res.send(item);

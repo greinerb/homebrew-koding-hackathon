@@ -63,6 +63,9 @@ app.post('/myflows/login', function(req, res){
          catch(e){console.log(e);}
 });
 
+app.get('/myflows/logout', users.logout);
+
+
 app.get('/myflows/user?', users.getAllUsers);
 app.get('/myflows/activeUser', users.getActiveUser);
 app.get('/myflows/user/:id', users.getUser);

@@ -24,7 +24,10 @@ db.open(function(err, db) {
     }
 });
 
-
+exports.logout = function(req, res){
+	req.session.user = null;
+	res.send(null);
+}
 
 exports.getActiveUser = function(req, res){
 	res.send(req.session.user);
