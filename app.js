@@ -58,16 +58,16 @@ app.post('/myflows/login', function(req, res){
                 // Store the user's primary key
                 // in the session store to be retrieved,
                 // or in this case the entire user object
-                req.session.user = user;
-		req.session.success = 'Authenticated as ' + user.name
-                 + ' click to <a href="/logout">logout</a>. '
-                 + ' You may now access <a href="/restricted">/restricted</a>.';
-                 res.redirect('/#list');
+                delete user['password'];
+		req.session.user = user;
+                 user['status']='SUCCESS';
+		 res.send(user);
                  });
               } else {
-                 req.session.error = 'Authentication failed, please check your '
-                 + ' username and password.'
-                 res.redirect('/#login');
+                 var user = new Object();
+		 user['status'] = 'ERROR';
+                 user['message'] = 'Authentication failed. Please check your username and password';
+		 res.send(user);
                }
             });
 	  });

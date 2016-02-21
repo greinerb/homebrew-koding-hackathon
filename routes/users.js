@@ -26,10 +26,13 @@ db.open(function(err, db) {
 
 
 
-
+exports.getActiveUser = function(req, res){
+	res.send(req.session.user);
+}
 
 
 exports.validateLogin = function(req, res, fullBody, callback ){
+
   console.log(fullBody);
    var object = JSON.parse(fullBody);
    var username = object.username;
