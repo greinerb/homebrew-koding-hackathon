@@ -64,7 +64,8 @@ exports.modifyWorkFlow = function(req, res) {
 exports.addWorkFlow = function(req, res) {
    var payload = req.body;
    var user = req.session.user;
-   payload['owner'] = user.username;
+   payload['username'] = user.username;
+   payload['type'] = 'owner';
    payload['userId'] = user._id;
    db.collection('workflows', function(err, collection) {
       collection.insert(payload, function(err, item) {
