@@ -15,10 +15,10 @@ var app = angular.module("myFlows", ['ngRoute', 'door3.css', 'ui.bootstrap'])
         controllerAs: 'userCtrl'
       })
       .when('/view/:id', {
-        templateUrl: 'templates/workflow-display.html',
-        controller: function(){
-          console.log('display');
-        }
+        templateUrl: 'templates/workflow-display1.html',
+        css: 'css/app.css',
+        controller: 'WorkflowController1',
+        controllerAs: 'workflowCtrl1'
       })
       .when('/list', {
         templateUrl: 'templates/workflow-list.html',

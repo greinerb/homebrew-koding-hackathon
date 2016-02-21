@@ -6,6 +6,7 @@ app.factory('Workflow', ['$http', function WorkflowFactory($http){
     },
     store: function(workflowToStore)
     {
+      console.log('store' + workflowToStore);
       console.log(workflowToStore);
       return $http({'method': 'PUT', 'url':'/myflows/workflow/' + workflowToStore.id, data: workflowToStore});
     },

@@ -1,14 +1,45 @@
 <div>
-    <div div class="container workflowDisplay">
-        <div div class="row">
-          <div class="col-md-2">{{data.name}}</div>
-          <div class="col-md-2">/\<br/>\/</div>
-          <div class="col-md-2"> This is example text for a task.</div>
-          <div class="col-md-2"> Actual Start: 11:42:00 </div>
-          <div class="col-md-2"> Actual End: 12:10:00 </div>
-          <div class="col-md-2"><a href="TODO">Brent Greiner</a>, <a href="TODO">Joel Krueger</a></div>
+    <div class="container workflowDisplay">
+      <div class="row">
+        <div class="form-group">
+          <h2>Title: {{data.title}}</h2>
         </div>
-      <button class="label label-default" ng-click="workflowCtrl.add(data)">Add node</button>
+        <div class="form-group">
+          Description: {{data.description}}
+        </div>
+        <div class="form-group">
+          Start: {{data.start}}
+        </div>
+        <div class="form-group">
+          End: {{data.end}}
+        </div>
+      </div>
+        <button ng-click="mustShow= !mustShow">Add Child</button>
+        <div class="row" ng-show="mustShow">
+          <form name="flowItemForm" ng-model="workflowitem" class="ModalWindow" novalidate ng-submit="flowItemForm.$valid && add({})">
+            <div class="form-group">
+              <h2>New Workflow Item</h2>
+            </div>
+            <div class="form-group">
+              <label for="workflowTitle">Workflow Title</label>
+              <input type="text" class="form-control" name="title" id="title" placeholder="Enter title (Required)" ng-model="workflowitem.title" required />
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea class="workflow" id="description" ng-model="workflowitem.description" placeholder="Optional"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="startDate">Start Date/Time</label>
+              <input type="datetime-local" class="form-control" id="startDate" ng-model="workflowitem.start" />
+            </div>
+            <div class="form-group">
+              <label for="description">End Date/Time</label>
+              <input type="datetime-local" class="form-control" id="endDate" ng-model="workflowitem.end" />
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-warning" ng-click="cancel()">Cancel</button>
+          </form>
+        </div>
       <button class="label label-default" ng-click="workflowCtrl.delete(data)" ng-show="data.nodes.length > 0">Delete nodes</button>
     </div>
     <div>

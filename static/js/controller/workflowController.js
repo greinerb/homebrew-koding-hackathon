@@ -36,9 +36,11 @@ app.controller("WorkflowController", ["$scope","Workflow", function($scope,Workf
             }];
   }
 
-  this.add = function(data)
+  $scope.add = function(data)
   {
-
+    console.log('title:' + this.workflowitem.title);
+    data.id = Workflow.getNewWorkflowId();
+    console.log('id from Workflow.getNewWorkflowId()' +  data.id );
     Workflow.store(data);
 
     var newId = new Date().getUTCMilliseconds();
@@ -49,6 +51,9 @@ app.controller("WorkflowController", ["$scope","Workflow", function($scope,Workf
       id: newId,
       nodes: []
     });
+    console.log('showTheForm' + $scope.mustShow);
+    this.mustShow = true;
+    //this.workflowitem.title = '';
   }
 
   this.delete = function(data)
