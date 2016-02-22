@@ -40,8 +40,9 @@ exports.getAllTasks = function(req, res) {
 
 exports.getTask = function(req, res) {
     var id = req.params.id;
+    var objectId = new ObjectID(id);
     db.collection('tasks', function(err, collection) {
-        collection.findOne({'_id':id}, function(err, item) {
+        collection.findOne({'_id':objectId}, function(err, item) {
         res.send(item);        	
         });
     });
