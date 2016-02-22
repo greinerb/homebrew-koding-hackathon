@@ -65,7 +65,7 @@ app.controller("WorkflowListController", ["Workflow", "User", "$scope", "$uibMod
       {
         workflow.id = data;
         $scope.workflows.push(workflow);
-        Workflow.store(workflow).success(function(data){
+        Workflow.newWorkflow(workflow).success(function(data){
             console.log('workflow successfully stored');
             console.log(data);
         });

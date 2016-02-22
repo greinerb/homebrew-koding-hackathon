@@ -11,14 +11,36 @@ app.factory('Workflow', ['$http', function WorkflowFactory($http){
     store: function(workflowToStore)
     {
       var id = workflowToStore._id;
+      if(!workflowToStore._id)
+      {
+        id = workflowToStore.id;
+      }
       delete workflowToStore._id;
       delete workflowToStore.id;
+
       console.log(workflowToStore);
       return $http({'method': 'PUT', 'url':'/myflows/workflow/' + id, data: workflowToStore});
+    },
+    newWorkflow: function(workflowToStore)
+    {
+      var id = workflowToStore._id;
+      if(!workflowToStore._id)
+      {
+        id = workflowToStore.id;
+      }
+      delete workflowToStore._id;
+      delete workflowToStore.id;
+
+      console.log(workflowToStore);
+      return $http({'method': 'PUT', 'url':'/myflows/workflow/', data: workflowToStore});
     },
     storeTask: function(taskToStore)
     {
       var id = taskToStore._id;
+      if(!taskToStore._id)
+      {
+        id = taskToStore.id;
+      }
       delete taskToStore._id;
       delete taskToStore.id;
       taskToStore.id = null;
