@@ -4,24 +4,26 @@ app.factory('Workflow', ['$http', function WorkflowFactory($http){
       console.log("get one workflow: " + workflowId);
       return $http({'method':'GET', 'url':'/myflows/workflow/' + workflowId});
     },
+    oneTask: function(taskId){
+      console.log("get one task: " + taskId);
+      return $http({'method':'GET', 'url':'/myflows/task/' + taskId});
+    },
     store: function(workflowToStore)
     {
-      if(workflowToStore._id && !workflowToStore.id)
-      {
-        workflowToStore.id = workflowToStore._id;
-      }
+      var id = workflowToStore._id;
+      delete workflowToStore._id;
+      delete workflowToStore.id;
       console.log(workflowToStore);
-      return $http({'method': 'PUT', 'url':'/myflows/workflow/' + workflowToStore.id, data: workflowToStore});
+      return $http({'method': 'PUT', 'url':'/myflows/workflow/' + id, data: workflowToStore});
     },
     storeTask: function(taskToStore)
     {
-      if(taskToStore.id && !taskToStore._id)
-      {
-        taskToStore._id = taskToStore.id;
-      }
+      var id = taskToStore._id;
+      delete taskToStore._id;
+      delete taskToStore.id;
       taskToStore.id = null;
       console.log(taskToStore);
-      return $http({'method': 'PUT', 'url':'/myflows/task/' + taskToStore._id, data: taskToStore});
+      return $http({'method': 'PUT', 'url':'/myflows/task/' + id, data: taskToStore});
     },
     byUser: function(username)
     {

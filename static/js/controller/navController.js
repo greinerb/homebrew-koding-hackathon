@@ -5,7 +5,6 @@ app.controller("NavController", ["$scope", "$uibModal", "User", "$location", fun
   this.isLoggedIn = function()
   {
     var retVal = User.isLoggedIn();
-    console.log('returning ' + retVal);
     return retVal;
   };
 

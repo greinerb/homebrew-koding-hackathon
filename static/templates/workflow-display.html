@@ -1,74 +1,87 @@
 <div>
-  <div ng-model="primaryFlow"  ng-show="!isEditable(-1)">
-    <div class="container">
+  <div ng-model="primaryFlow"  ng-show="!isEditable(-1)" >
+    <div class="container workflowDisplay">
       <div class="row">
-        <div class="form-group">
+        <div class="form-group col-md-12">
           <h2>Title: {{primaryFlow.title}}</h2>
         </div>
-      <div class="form-group">
-            Workflow Id: {{primaryFlow.id}}
       </div>
-        <div class="form-group">
-          Description: {{primaryFlow.description}}
+      <div class="row">
+        <div class="form-group col-md-6">
+          <b>Description:</b> {{primaryFlow.description}}
         </div>
-          <div class="form-group">
-            Start: {{primaryFlow.start}}
-          </div>
-          <div class="form-group">
-            End: {{primaryFlow.end}}
-          </div>
+        <div class="form-group col-md-6">
+          <b>Status:</b> {{primaryFlow.status}}
         </div>
-        <div>
-          <button class="label label-default" ng-click="makeEditable(-1)">Edit</button>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <b>Start:</b> {{primaryFlow.start}}
         </div>
+        <div class="form-group col-md-6">
+          <b>End:</b> {{primaryFlow.end}}
+        </div>
+      </div>
+      <div>
+        <button class="label label-default paddedElement" ng-click="makeEditable(-1)">Edit</button>
+        <button class="label label-default paddedElement" ng-click="add()">Add</button>
       </div>
     </div>
-    <form name="flowItemForm" ng-model="primaryFlow" class="ModalWindow" novalidate ng-submit="flowItemForm.$valid && save(-1)" ng-show="isEditable(-1)">
-      <div class="form-group">
-        <h2>New Workflow Item</h2>
-      </div>
-      <div class="form-group">
-        <label for="workflowTitle">Workflow Title</label>
-        <input type="text" class="form-control" name="title" id="title" placeholder="Enter title (Required)" ng-model="primaryFlow.title" required />
-      </div>
-      <div class="form-group">
-        <label for="description">Description</label>
-        <textarea class="workflow" id="description" ng-model="primaryFlow.description" placeholder="Optional"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="startDate">Start Date/Time</label>
-        <input type="datetime-local" class="form-control" id="startDate" ng-model="primaryFlow.start" />
-      </div>
-      <div class="form-group">
-        <label for="description">End Date/Time</label>
-        <input type="datetime-local" class="form-control" id="endDate" ng-model="primaryFlow.end" />
-      </div>
-      <button type="submit" class="btn btn-primary">Save</button>
-    </form>
   </div>
+  <form name="flowItemForm" ng-model="primaryFlow" class="ModalWindow" novalidate ng-submit="flowItemForm.$valid && save(-1)" ng-show="isEditable(-1)">
+    <div class="form-group">
+      <h2>New Workflow Item</h2>
+    </div>
+    <div class="form-group">
+      <label for="workflowTitle">Workflow Title</label>
+      <input type="text" class="form-control" name="title" id="title" placeholder="Enter title (Required)" ng-model="primaryFlow.title" required />
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea class="workflow" id="description" ng-model="primaryFlow.description" placeholder="Optional"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="description">Status</label>
+      <input type="text" id="status" ng-model="primaryFlow.status" />
+    </div>
+    <div class="form-group">
+      <label for="startDate">Start Date/Time</label>
+      <input type="text" class="form-control" id="startDate" ng-model="primaryFlow.start" />
+    </div>
+    <div class="form-group">
+      <label for="description">End Date/Time</label>
+      <input type="text" class="form-control" id="endDate" ng-model="primaryFlow.end" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
 </div>
 <div ng-repeat="child in children">
   <div ng-model="child"  ng-show="!isEditable($index)">
-    <div class="container">
+    <div class="container workflowDisplay">
       <div class="row">
-        <div class="form-group">
+        <div class="form-group col-md-12">
           <h2>Title: {{child.title}}</h2>
         </div>
-      <div class="form-group">
-            Workflow Id: {{child.id}}
       </div>
-        <div class="form-group">
-          Description: {{child.description}}
+      <div class="row">
+        <div class="form-group col-md-6">
+          <b>Description:</b> {{child.description}}
         </div>
-          <div class="form-group">
-            Start: {{child.start}}
-          </div>
-          <div class="form-group">
-            End: {{child.end}}
-          </div>
+        <div class="form-group col-md-6">
+          <b>Status:</b> {{child.status}}
         </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <b>Start:</b> {{child.start}}
+        </div>
+        <div class="form-group col-md-6">
+          <b>End:</b> {{child.end}}
+        </div>
+      </div>
         <div>
-          <button class="label label-default" ng-click="makeEditable($index)">Edit</button>
+          <button class="label label-default paddedElement" ng-click="makeEditable($index)">Edit</button>
+          <button class="label label-default paddedElement" ng-click="add()">Add</button>
         </div>
       </div>
     </div>
@@ -83,6 +96,10 @@
       <div class="form-group">
         <label for="description">Description</label>
         <textarea class="workflow" id="description" ng-model="child.description" placeholder="Optional"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="description">Status</label>
+        <input type="text" id="status" ng-model="child.status" />
       </div>
       <div class="form-group">
         <label for="startDate">Start Date/Time</label>

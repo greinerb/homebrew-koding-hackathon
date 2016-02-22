@@ -19,8 +19,11 @@ var app = angular.module("myFlows", ['ngRoute', 'door3.css', 'ui.bootstrap'])
       })
       .when('/view/:id', {
         templateUrl: 'templates/workflow-display.html',
-        controller: function(){
-          console.log('display');
+        controller: 'WorkflowController',
+        controllerAs: 'workflowCtrl',
+        scope: {
+          primaryFlow: '=',
+          children: '='
         }
       })
       .when('/list', {
