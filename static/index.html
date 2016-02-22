@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 <html>
   <title>myFlows</title>
-  <link rel="stylesheet" href="css/external/bootstrap.min.css" />
-  <link rel="stylesheet" href="css/external/bootstrap-theme.min.css" />
-  <link rel="stylesheet" href="css/app.css" />
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Demo</title>
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="css/external/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/external/bootstrap-theme.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+
+
   <body ng-app="myFlows">
     <div>
       <nav class="navbar navbar-default navbar-fixed-top">
@@ -17,25 +26,34 @@
             </button>
             <a class="navbar-brand" href="/">myFlows</a>
           </div>
-
           <div class="collapse navbar-collapse navbar-right" id="navbar-collapse-1" ng-controller="NavController as navCtrl">
             <ul class="nav navbar-nav navbar-left">
-              <li ng-class="{'active' : navCtrl.isSet(1)}"><a href="#/home" ng-click="navCtrl.setTab(1)">Home</a></li>
+              <li ng-class="{'active' : navCtrl.isSet(1)}">
+                <a href="#/home" ng-click="navCtrl.setTab(1)">Home</a>
+              </li>
               <li ng-class="{'dropdown' : true, 'active' : navCtrl.isSet(2)}" ng-show="navCtrl.isLoggedIn()"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">UserName <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#/user" ng-click="navCtrl.setTab(2)">Edit User</a></li>
-                  <li><a href="#/list" ng-click="navCtrl.setTab(2)">My Flows</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a href="#/" ng-click="navCtrl.logout()">Logout</a></li>
-                </ul>
+                 <ul class="dropdown-menu">
+                   <li><a href="#/user" ng-click="navCtrl.setTab(2)">Edit User</a></li>
+                   <li><a href="#/list" ng-click="navCtrl.setTab(2)">My Flows</a></li>
+                   <li role="separator" class="divider"></li>
+                   <li><a href="#/" ng-click="navCtrl.logout()">Logout</a></li>
+                 </ul>
               </li>
               <li ng-class="{'active' : navCtrl.isSet(2)}" ng-show="!navCtrl.isLoggedIn()"><a href="#/login" ng-click="navCtrl.setTab(2)" >Log In</a></li>
-              <li ng-class="{'active' : navCtrl.isSet(3)}"><a href="#/about" ng-click="navCtrlsetTab(3)">About Us</a></li>
-            </ul>
-          </div>
-        </div>
+              <li ng-class="{'active' : navCtrl.isSet(3)}">
+                <a href="#/about" ng-click="navCtrl.setTab(3)">About Us</a>
+              </li>
+             </ul>
+           </div>
+         </div>
       </nav>
+      <div class="jumbotron">
+			  <h1>Hello world!</h1>
+			  <p>In no impression assistance contrasted. Manners she wishing justice hastily new anxious.</p>
+			  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+			</div>
     </div>
+
     <div class="content">
       <div ng-view></div>
     </div>
@@ -52,6 +70,7 @@
     <script src="js/controller/navController.js"></script>
     <script src="js/controller/workflowListController.js"></script>
     <script src="js/controller/userController.js"></script>
+    <script src="js/controller/aboutController.js"></script>
     <script src="js/directives/workflowModalDirective.js"></script>
     <script src="js/services/workflowService.js"></script>
     <script src="js/services/userService.js"></script>

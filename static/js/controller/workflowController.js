@@ -1,87 +1,112 @@
-app.controller("WorkflowController", ["$scope","Workflow", function($scope,Workflow){
+app.controller("WorkflowController", ["$scope","Workflow", "User", "$routeParams", function($scope, Workflow, User, $routeParams){
 
-  this.saveWorkflow = function(workFlowToStore)
-  {
-    Workflow.store(workFlowToStore);
-  }
+  $scope.primaryFlow = {};
+  $scope.children = [];
 
-  this.getWorkflow = function(workflowId)
-  {
-    var workflow = Workflow.one(workflowId);
-    if(workflow)
-    {
-      return workflow;
-    }
-    return {};
-  }
-
-  var getWorkflows = function(userId)
+  var getWorkflows = function(workflowId)
   {
     //get the workflows for a user
-    var workflows = Workflow.byUser(userId);
+    Workflow.one(workflowId).success(function(data){
+      console.log('primary');
+      console.log(data);
+      $scope.primaryFlow = data;
 
-    //loop over the workflows and get all the children
-    if(workflows)
-    {
-      for(i = 0; i < workflows.length; i++)
+      if($scope.primaryFlow.children)
       {
-        if($scope.workflowlist)
+        forEach(child in $scope.primaryFlow.children)
         {
-          $scope.workflowlist.push(workflows[i]);
-        }
-        else
-        {
-          $scope.workflowlist = new Array();
-          $scope.workflowlist.push(workflows[i]);
+          Workflow.one(child).success(function(data){
+            console.log('child');
+            console.log(data);
+            $scope.children.push(data);
+          })
         }
       }
-    }
+      else {
+        $scope.primaryFlow.children = [];
+      }
+    });
   }
 
   $scope.add = function(workflowitem)
   {
-
     //generate and id for the workflowitem
-    workflowitem.id = Workflow.getNewWorkflowId();
-
-    console.log("workflowitem.id" + workflowitem.id);
-
-    //store the workflow in the db
-    Workflow.store(workflowitem);
-
-    if($scope.workflowlist)
-    {
-      $scope.workflowlist.push(this.workflowitem);
-    }
-    else
-    {
-      $scope.workflowlist = new Array();
-      $scope.workflowlist.push(this.workflowitem);
-    }
-    //empty out the form
-    this.workflowitem = "";
+    Workflow.getNewWorkflowId().success(function(data){
+      console.log('generated id:' + data);
+      var workflow = {'id': data};
+      $scope.children.push(workflow);
+      $scope.primaryFlow.children.push(data);
+    });
   }
 
-  this.delete = function(index, id)
+  this.delete = function(index)
   {
       console.log('index:' + index);
-
-      if(index && id)
-      {
-        Wrokflow.deleteByWorkflowId(id);
-      }
-
-      $scope.workflowlist.splice(index,1);
+      Workflow.deleteByWorkflowId(id).success(function(data){
+        $scope.children.splice(index, 1);
+        $scope.primaryFlow.children.splice(index, 1);
+      });
   }
 
-  this.deleteItem = function(index)
+  this.index = -2;
+  $scope.isEditable = function(idx)
   {
-      $scope.workflows.splice(index);
+    return this.index == idx;
+  };
+
+  $scope.makeEditable = function(idx)
+  {
+    console.log('making eidtable ' + idx);
+    if(this.index == -1)
+    {
+      Workflow.store($scope.primaryFlow)
+        .success(function(data){
+          console.log('saved idx ' + idx);
+          this.index = idx;
+        });
+    }
+    else if(this.index >=0 && this.index < $scope.children.length)
+    {
+      Workflow.storeTask($scope.children[this.index])
+        .success(function(data){
+          console.log('saved idx ' + ithis.index);
+          this.index = idx;
+          console.log('curr index=' + this.index);
+          console.log('iseditable=' + $scope.isEditable(this.index));
+        });
+    }
+    else {
+      this.index = idx;
+    }
   }
 
-  //$scope.workflows = getWorkflows();
+  $scope.save = function(idx)
+  {
+    if(idx ==-1)
+    {
+      Workflow.store($scope.primaryFlow)
+        .success(function(data){
+          console.log('saved idx ' + idx);
+          this.index = -2;
+          console.log('curr index=' + this.index);
+          console.log('iseditable=' + $scope.isEditable(this.index));
+        });
+    }
+    else if(idx >=0 && idx < $scope.children.length)
+    {
+      Workflow.storeTask($scope.children[idx])
+        .success(function(data){
+          console.log('saved idx ' + idx);
+          this.index = -2;
+          console.log('curr index=' + this.index);
+          console.log('iseditable=' + $scope.isEditable(this.index));
+        });
+    }
+    else {
+      this.index = -2;
+    }
+  }
 
-  $scope.workflowlist= getWorkflows();
-
-  return this;
+  console.log($routeParams.id);
+  getWorkflows($routeParams.id);
 }]);
