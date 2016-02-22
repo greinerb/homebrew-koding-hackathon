@@ -6,8 +6,22 @@ app.factory('Workflow', ['$http', function WorkflowFactory($http){
     },
     store: function(workflowToStore)
     {
+      if(workflowToStore._id && !workflowToStore.id)
+      {
+        workflowToStore.id = workflowToStore._id;
+      }
       console.log(workflowToStore);
       return $http({'method': 'PUT', 'url':'/myflows/workflow/' + workflowToStore.id, data: workflowToStore});
+    },
+    storeTask: function(taskToStore)
+    {
+      if(taskToStore.id && !taskToStore._id)
+      {
+        taskToStore._id = taskToStore.id;
+      }
+      taskToStore.id = null;
+      console.log(taskToStore);
+      return $http({'method': 'PUT', 'url':'/myflows/task/' + taskToStore._id, data: taskToStore});
     },
     byUser: function(username)
     {
@@ -23,6 +37,11 @@ app.factory('Workflow', ['$http', function WorkflowFactory($http){
     {
       console.log('getNewTaskId');
       return $http({'method':'GET', 'url':'/myflows/task/generateId'});
+    },
+    deleteByWorkflowId: function(id)
+    {
+      console.log('deleteByWorkflowId');
+      return $http({'method':'DELETE', 'url':'/myflows/task/' + id});
     }
   };
 }]);
